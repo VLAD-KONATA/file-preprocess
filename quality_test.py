@@ -196,11 +196,12 @@ def get_evaluation_score(s_volume, g_volume, spacing, metric):
 
 if __name__ == '__main__':
 
-    seg_path = r'C:/Users/VLADKONATA/Desktop/test'
-    gd_path = r'C:/Users/VLADKONATA/Desktop/groundtrue'
-    save_dir = r'C:/Users/VLADKONATA/Desktop/test'
+    seg_path = r'C:/Users/VLADKONATA/Desktop/quality test/seg'
+    gd_path = r'C:/Users/VLADKONATA/Desktop/quality test/gd(process)'
+    save_dir = r'C:/Users/VLADKONATA/Desktop/quality test'
     seg = sorted(os.listdir(seg_path))
 
+    pa=[]
     dices = []
     hds = []
     rves = []
@@ -216,6 +217,10 @@ if __name__ == '__main__':
             gd_arr = gd_.get_fdata().astype('float32')
             case_name.append(name)
 
+            # 求pa（像素准确率）
+            pa_score=binary_pa(seg_arr,gd_arr)
+            pa.append(pa_score)
+            
             # 求hausdorff95距离
             hd_score = get_evaluation_score(seg_arr, gd_arr, spacing=None, metric='hausdorff95')
             hds.append(hd_score)
@@ -232,6 +237,7 @@ if __name__ == '__main__':
             sens, spec = compute_class_sens_spec(seg_.get_fdata(), gd_.get_fdata())
             senss.append(sens)
             specs.append(spec)
+            print(name+" metrics done")
     # 存入pandas
     data = {'dice': dices, 'RVE': rves, 'Sens': senss, 'Spec': specs, 'HD95': hds}
     df = pd.DataFrame(data=data, columns=['dice', 'RVE', 'Sens', 'Spec', 'HD95'], index=case_name)
