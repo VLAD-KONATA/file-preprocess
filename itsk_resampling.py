@@ -35,14 +35,37 @@ def resampleVolume(outspacing, vol):
  
 
 if __name__ == '__main__':
-    baseDir = r'E:\breastxxx\Duke-Breast-Cancer-MRI-Supplement-v3\Segmentation_Masks_NIFTI'
-    objDir = 'E:\\breastxxx\\Duke-Breast-Cancer-MRI-Supplement-v3\\resample_Segmentation_Masks_NIFTI'
-    outspacing_0 = 1 
+    baseDir = r'/home/konata/Dataset/TED_MRI/T2/recrop/origin'
+    objDir = '/home/konata/Dataset/TED_MRI/T2/recrop/origin_resample'
+
+    outspacing_0 =  0.3125
+    outspacing_1 = 0.3125
+    outspacing_2 = 3.85
+    '''
+    outspacing_0 = 1
     outspacing_1 = 1
     outspacing_2 = 1
-    
+    '''
+    imgs_list = os.listdir(baseDir)
+    if not os.path.exists(objDir):
+        os.makedirs(objDir)
+
+    for img in imgs_list:
+        #if img in I_vol_list:
+        img_dir = baseDir +'/' + img
+
+        resampled_img_dir = objDir +'/'+ img
+
+        img_ori = sitk.Image(sitk.ReadImage(img_dir))
+        img_ori_spacing = img_ori.GetSpacing()
+        #outspacing_2 = img_ori_spacing[2]
+        outspacing = [outspacing_0, outspacing_1, outspacing_2]
+
+        img_resampled = resampleVolume(outspacing, img_ori)
+        sitk.WriteImage(img_resampled, resampled_img_dir)
+        print( img, ' transformed!')
     #I_vol_list = ['reg_ADC.nii.gz', 'reg_DWI_0.nii.gz', 'reg_DWI_800.nii.gz', 'reg_T1C.nii.gz', 'T2.nii.gz']
- 
+'''
     if os.path.exists(baseDir):
         folders = os.listdir(baseDir)
         for folder in folders:
@@ -64,3 +87,4 @@ if __name__ == '__main__':
                 img_resampled = resampleVolume(outspacing, img_ori)
                 sitk.WriteImage(img_resampled, resampled_img_dir)
                 print('pid_', folder, ' ', img, ' transformed!')             
+'''

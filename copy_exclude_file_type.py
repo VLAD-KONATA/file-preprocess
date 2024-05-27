@@ -19,7 +19,9 @@ def copy_folder(src, dst, excluded_extensions=None):
                 shutil.copy2(src_file_path, dst_file_path)
 
 # Example usage:
-source_folder = r'G:/MRI_Code/'
-destination_folder = r'C:/Users/VLADKONATA/Desktop/TAO_MRI'
+#source_folder = r'/home/konata/Konata/9hospital_TED/MRI_Code'
+source_folder = r'/home/konata/Konata/9hospital_TED/ztfs-machine-learning-python'
+destination_folder = r'/home/konata/Git/TED_MRI_pt2'
+#destination_folder = r'/home/konata/Git/TED_MRI'
 
 copy_folder(source_folder, destination_folder, excluded_extensions={'.pth', '.h5', '.nii.gz'})
