@@ -50,7 +50,7 @@ def watch_nvidia(nvidia_ids,min_memory):
 
 
 nvidia_ids = [0] # 显卡id
-min_memory = 20 # 最小可用显存 GB
+min_memory = 14 # 最小可用显存 GB
 while True:
   flag = watch_nvidia(nvidia_ids,min_memory)
   if flag >= 2:
