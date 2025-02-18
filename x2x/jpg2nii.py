@@ -24,11 +24,18 @@ def png2nii(input,output,name):
         data_3d[:, :, idx] = img_array
 
     # 创建NIfTI图像对象
-    #origin spacing(0.3125,0.3125,3.85)-(512,512,20)
+    
     #spacing=(0.6,0.9375,0.9375)
     #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/I3Net/imagesTs/IXI013-HH-1212-T2.nii.gz'))
-    spacing=(3.85/4,0.3125,0.3125)
-    samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/TED_MRI/T2/mask/origin',name))
+    spacing=(3.85/2,0.3125,0.3125)
+    #origin spacing(0.3125,0.3125,3.85)-TEDMRI-T2(512,512,20)
+    #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/TED_MRI/T2/mask/origin',name))
+    
+    # spacing=(1/4,0.5566,0.5566)
+    #origin spacing(1,0.5566,0.5566)-TAOCT(240,150,50)
+    #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/I3Net/CT/test/',name))
+    
+    samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/TED_MRI/TOM500/all_image',name))
     samp=sitk.Image(samp)
     outs = sitk.GetImageFromArray(data_3d)
     outs.SetDirection(samp.GetDirection())
@@ -43,8 +50,14 @@ if __name__=='__main__':
     # 定义输入和输出路径
     #input_dir = '/home/konata/Dataset/I3Net/RIFE_test/IXI012-HH-1211-T2_fpsx2'  # 替换为你的jpg文件所在目录
     #output_file = '/home/konata/Dataset/I3Net/RIFE_test/test.nii.gz'  # 输出的nii.gz文件名
-    input_dir = '/home/konata/Dataset/TED_MRI/T2/mask/origin_slice/RIFE_test_fpsx4'  # 替换为你的jpg文件所在目录
-    output_dir = '/home/konata/Dataset/TED_MRI/T2/mask/origin_slice/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
+    #input_dir = '/home/konata/Dataset/TED_MRI/T2/mask/origin_slice/RIFE_test_fpsx4'  # 替换为你的jpg文件所在目录
+    #output_dir = '/home/konata/Dataset/TED_MRI/T2/mask/origin_slice/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
+    #input_dir = '/home/konata/Dataset/I3Net/CT/test_fpsx4/RIFE_test_fpsx4'  # 替换为你的jpg文件所在目录
+    #output_dir = '/home/konata/Dataset/I3Net/CT/test_fpsx4/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
+    #input_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx4_2025_01_16_16_58_21/RIFE_test_fpsx4'  # 替换为你的jpg文件所在目录
+    #output_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx4_2025_01_16_16_58_21/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
+    input_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx2_2025_01_06_23_26_55/RIFE_test_fpsx2'  # 替换为你的jpg文件所在目录
+    output_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx2_2025_01_06_23_26_55/RIFE_test_nii_fpsx2/'  # 输出的nii.gz文件名
     Path(output_dir).mkdir(exist_ok=True, parents=True)
     folders=os.listdir(input_dir)
     for folder in folders:

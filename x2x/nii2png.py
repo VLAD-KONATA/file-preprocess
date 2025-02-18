@@ -36,24 +36,32 @@ def nii_to_image(baseDir,objDir):
             (x, y, z) = img.shape #img(240，150，50),img_fdata(150, 240, 50)
             for i in range(z):  # z是图像的序列
                 slice = img_fdata[:,:, i]  # 选择哪个方向的切片都可以
-                # 计算需要填充的数量
-                target_z=x
-                pad_top = (target_z - y) // 2
-                pad_bottom = target_z - y - pad_top
-                #slice=np.rot90(slice)
-                # 使用零填充或复制边缘像素填充
-                padded_slice = np.pad(slice, ((pad_top, pad_bottom), (0, 0)), mode='constant',constant_values = (-1000,-1000))
-                slice_normalized = normalize(padded_slice)
+                if x!=y:
+                    # 计算需要填充的数量                    
+                    target_z=256
+                    pad_top = (target_z - y) // 2
+                    pad_bottom = target_z - y - pad_top
+                    pad_left=(target_z - x) // 2
+                    pad_right=target_z-x-pad_left
+                    #slice=np.rot90(slice)
+                    # 使用零填充或复制边缘像素填充
+                    padded_slice = np.pad(slice, ((pad_top, pad_bottom), (pad_left, pad_right)), mode='constant',constant_values = (-1000,-1000))
+                    slice_normalized = normalize(padded_slice)
+                else:
+                    slice_normalized = normalize(slice)
                 # 保存图像，使用PNG格式
+               
                 imageio.imwrite(os.path.join(img_f_path, '{}.png'.format(i)), slice_normalized)
             pbar.update(1)
 
 
 #baseDir = r"/home/konata/Dataset/TED_MRI/T2/mask/origin/"
 #objDir= r"/home/konata/Dataset/TED_MRI/T2/mask/origin_slice/TED_png"
-baseDir = r"C:/Users/VLADKONATA/Desktop/test"
+#baseDir = r"/home/konata/Dataset/I3Net/CT/test"
+baseDir = r"/home/konata/Dataset/TED_MRI/TOM500/val/image"
 #objDir= r"/home/konata/Dataset/I3Net/slice_jpg/train"
-objDir= r"C:/Users/VLADKONATA/Desktop/slice"
+#objDir= r"/home/konata/Dataset/I3Net/CT/test_slice"
+objDir= r"/home/konata/Dataset/TED_MRI/TOM500/slice"
 if not os.path.exists(objDir):
     os.mkdir(objDir)  # 新建文件夹
 nii_to_image(baseDir,objDir)
