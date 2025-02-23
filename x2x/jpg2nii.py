@@ -12,27 +12,29 @@ def png2nii(input,output,name):
     # 初始化一个空的3D数组来存放所有的图像数据
     # 假设所有图片都是512x512大小
     image_shape =Image.open(image_files[0]) .size
-    data_3d = np.zeros((image_shape[0], image_shape[1], len(image_files)), dtype=np.float32)
+    data_3d = np.zeros((len(image_files), image_shape[1],image_shape[0] ), dtype=np.float32)
 
     # 逐个读取JPG文件并填充到3D数组中
     for idx, image_file in enumerate(image_files):
         img = Image.open(image_file).convert('L')  # 转换为灰度图
         img_array = np.array(img)
+        img_array=np.rot90(img_array)
+        img_array=np.rot90(img_array)
         # 确保所有图像数据具有相同的数据类型和范围
         img_array = img_as_float(img_array)
         
-        data_3d[:, :, idx] = img_array
+        data_3d[idx, :,: ] = img_array
 
     # 创建NIfTI图像对象
-    
-    #spacing=(0.6,0.9375,0.9375)
+\
+    #spacing=(0.9375,0.9375,0.6)
     #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/I3Net/imagesTs/IXI013-HH-1212-T2.nii.gz'))
-    spacing=(3.85/2,0.3125,0.3125)
+    spacing=(0.3125,0.3125,3.85/2)
     #origin spacing(0.3125,0.3125,3.85)-TEDMRI-T2(512,512,20)
     #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/TED_MRI/T2/mask/origin',name))
     
-    # spacing=(1/4,0.5566,0.5566)
-    #origin spacing(1,0.5566,0.5566)-TAOCT(240,150,50)
+    # spacing=(0.5566,0.5566,1/4)
+    #origin spacing(0.5566,0.5566,1)-TAOCT(240,150,50)
     #samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/I3Net/CT/test/',name))
     
     samp=sitk.ReadImage(os.path.join('/home/konata/Dataset/TED_MRI/TOM500/all_image',name))
