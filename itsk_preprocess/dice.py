@@ -13,7 +13,7 @@ def soft_dice(pre,gd):
     gd=torch.squeeze(gd).to(device='cuda:0')
     pre=torch.squeeze(pre).to(device='cuda:0')
     A=torch.unique(gd)
-    #assert pre.shape==gd.shape
+    assert pre.shape==gd.shape
     for i in A:
         i=i.item()
         if i!=0:
