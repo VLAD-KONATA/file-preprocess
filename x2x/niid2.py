@@ -10,13 +10,13 @@ def niid2(inpath,outpath,name):
     img=sitk.Image(img)
     array=sitk.GetArrayFromImage(img)
     shape=array.shape
-    zero=array[::2]
+    zero=array[:,::2]
     '''
     zero=np.zeros(((shape[0]+1)/2,shape[1],shape[2]),dtype=np.float32)
     for i in range(shape[0]):
         zero[i,:,:]=array[i*2,:,:]
     '''
-    spacing=(0.3125,0.3125,3.85)
+    spacing=(0.9375,0.9375*2,1.25)
     outs=sitk.GetImageFromArray(zero)
     outs.SetDirection(img.GetDirection())
     outs.SetOrigin(img.GetOrigin())
@@ -35,8 +35,10 @@ if __name__=='__main__':
     #output_dir = '/home/konata/Dataset/I3Net/CT/test_fpsx4/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
     #input_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx4_2025_01_16_16_58_21/RIFE_test_fpsx4'  # 替换为你的jpg文件所在目录
     #output_dir = '/home/konata/Dataset/TED_MRI/TOM500/test_fpsx4_2025_01_16_16_58_21/RIFE_test_nii_fpsx4/'  # 输出的nii.gz文件名
-    input_dir = 'C:/Users/VLADKONATA/Desktop/receive/seg'  # 替换为你的jpg文件所在目录
-    output_dir = 'C:/Users/VLADKONATA/Desktop/receive/segd2'  # 输出的nii.gz文件名
+    #input_dir = 'C:/Users/VLADKONATA/Desktop/receive/seg'  # 替换为你的jpg文件所在目录
+    #output_dir = 'C:/Users/VLADKONATA/Desktop/receive/segd2'  # 输出的nii.gz文件名    
+    input_dir = '/home/konata/Dataset/I3Net/imagesTs'  # 替换为你的jpg文件所在目录
+    output_dir = '/home/konata/Dataset/I3Net/d2'  # 输出的nii.gz文件名
     Path(output_dir).mkdir(exist_ok=True, parents=True)
     files=os.listdir(input_dir)
     for name in files:

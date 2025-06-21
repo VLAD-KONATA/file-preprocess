@@ -8,8 +8,8 @@ from collections import OrderedDict
 #####下面是创建json文件的内容
 #可以根据你的数据集，修改里面的描述
 json_dict = OrderedDict()
-json_dict['dataset_name'] = 'TOM500'
-baseDir='/home/konata/Dataset/TED_MRI/TOM500/slice/val'
+json_dict['dataset_name'] = 'IXI-T2'
+baseDir='/home/konata/Dataset/IXI-T2/RIFE/imagesTs'
 seq_list=[]
 seq_info=[]
 folders=os.listdir(baseDir)
@@ -26,5 +26,5 @@ json_dict['seq_info'] = seq_info
 json_dict['size'] = len(folders)
 
 
-with open(os.path.join('/home/konata/Git/VFI/data_description', "TOM500_dataset_val.json"), 'w') as f:
+with open(os.path.join('/home/konata/Git/VFI/data_description', "IXI-T2_dataset_val.json"), 'w') as f:
     json.dump(json_dict, f, indent=4, sort_keys=True)
